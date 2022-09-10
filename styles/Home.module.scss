@@ -211,11 +211,21 @@
   z-index: 3;
 }
 
+.loading-icon-forecast-container {
+  z-index: unset;
+  position: unset;
+}
+
 .loading-icon {
   color: #535353;
   width: 6rem;
   height: 6rem;
   animation: loading 0.8s infinite linear;
+}
+
+.loading-icon-forecast {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 @keyframes loading {
@@ -286,6 +296,7 @@
 }
 
 .nextdayforecast-container {
+  height: 50%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }

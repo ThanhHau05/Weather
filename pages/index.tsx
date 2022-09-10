@@ -7,7 +7,6 @@ import { AiFillCaretDown, AiFillCaretUp, AiOutlineLoading3Quarters } from "react
 import list_item from "../components/ListItem";
 import { useOnClickOut } from "../Hooks/useOnClickOut";
 import { removeVietnameseTones } from "../components/VNTones";
-import { TbTemperatureCelsius } from "react-icons/tb";
 const axios = require("axios");
 const cx = classNames.bind(styles);
 let dates = new Date();
@@ -77,6 +76,14 @@ export default function Home() {
           <span className={cx("forecast-day-avg")}>{item.avgtemp_c}°</span>
         </div>
       ));
+    } else {
+      return [1, 2, 3, 4].map((item, index) => (
+        <div key={index}>
+          <div className={cx("loading-icon-container", "loading-icon-forecast-container")}>
+            <AiOutlineLoading3Quarters className={cx("loading-icon", "loading-icon-forecast")} />
+          </div>
+        </div>
+      ));
     }
   };
 
@@ -129,12 +136,14 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const province = removeVietnameseTones(selecttitle);
-    const API_KEY = "4dea35c3744c4d2ca6d93100220909";
-    const BASE_URL = "http://api.weatherapi.com";
-    axios.get(`${BASE_URL}/v1/current.json?key=${API_KEY}&lang=vi&q=${province}`).then((response) => {
-      setWeather(response.data);
-    });
+    if (selecttitle !== "") {
+      const province = removeVietnameseTones(selecttitle);
+      const API_KEY = "4dea35c3744c4d2ca6d93100220909";
+      const BASE_URL = "//api.weatherapi.com";
+      axios.get(`${BASE_URL}/v1/current.json?key=${API_KEY}&lang=vi&q=${province}`).then((response) => {
+        setWeather(response.data);
+      });
+    }
   }, [selecttitle]);
 
   useEffect(() => {
@@ -153,41 +162,38 @@ export default function Home() {
   }, [newvaluearray]);
 
   const text = async () => {
-    const [DateToday, MonthToday, YearToday] = dates.toLocaleDateString().split("/");
-    const day = new Date(`${MonthToday} ${DateToday}, ${YearToday}`);
-    const nextDay = new Date(day);
-    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    const API_KEY = "4dea35c3744c4d2ca6d93100220909";
-    const BASE_URL = "http://api.weatherapi.com";
-    const dataitem = [];
-    const newdataitem = [];
-    const datadayweeks = [];
-    for (let i = 1; i <= 4; i++) {
-      nextDay.setDate(day.getDate() + i);
-      const textDay = nextDay.toString().split(" ");
-      let dayweek = "";
-      if (days.indexOf(textDay[0]) === 6) {
-        dayweek = "CN";
-        datadayweeks.push(dayweek);
-      } else {
-        dayweek = `${days.indexOf(textDay[0]) + 2}`;
-        datadayweeks.push(dayweek);
+    if (selecttitle !== "") {
+      const [DateToday, MonthToday, YearToday] = dates.toLocaleDateString().split("/");
+      const day = new Date(`${MonthToday} ${DateToday}, ${YearToday}`);
+      const nextDay = new Date(day);
+      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const API_KEY = "4dea35c3744c4d2ca6d93100220909";
+      const BASE_URL = "//api.weatherapi.com";
+      const dataitem = [];
+      for (let i = 1; i <= 4; i++) {
+        nextDay.setDate(day.getDate() + i);
+        const textDay = nextDay.toString().split(" ");
+        let dayweek = "";
+        if (days.indexOf(textDay[0]) === 6) {
+          dayweek = "CN";
+        } else {
+          dayweek = `${days.indexOf(textDay[0]) + 2}`;
+        }
+        const province = removeVietnameseTones(selecttitle);
+        await axios
+          .get(`${BASE_URL}/v1/forecast.json?key=${API_KEY}&dt=${textDay[3]}-${textDay[1]}-${textDay[2]}&q=${province}`)
+          .then((response) => {
+            const item = {
+              day: dayweek,
+              avgtemp_c: response.data.forecast.forecastday[0].day.avgtemp_c,
+              icon: response.data.forecast.forecastday[0].day.condition.icon,
+            };
+            dataitem.push(item);
+          });
       }
-      const province = removeVietnameseTones(selecttitle);
-      await axios
-        .get(`${BASE_URL}/v1/forecast.json?key=${API_KEY}&dt=${textDay[3]}-${textDay[1]}-${textDay[2]}&q=${province}`)
-        .then((response) => {
-          const item = {
-            day: dayweek,
-            avgtemp_c: response.data.forecast.forecastday[0].day.avgtemp_c,
-            icon: response.data.forecast.forecastday[0].day.condition.icon,
-          };
-          dataitem.push(item);
-        });
+      return dataitem;
     }
-    return dataitem;
   };
-
   text().then((value) => {
     setDataItem(value);
   });

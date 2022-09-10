@@ -70,7 +70,7 @@
 .option-container {
   z-index: 1;
   position: fixed;
-  width: 50%;
+  max-width: 50%;
   min-width: 250px;
   background-color: #fff;
   color: #000;
@@ -343,7 +343,7 @@
   }
 
   .temparature-container {
-    margin: 45px auto 10px;
+    margin: 30px auto 10px;
   }
 
   .nextdayforecast {

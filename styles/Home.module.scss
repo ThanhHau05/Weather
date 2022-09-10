@@ -71,7 +71,7 @@
   z-index: 1;
   position: fixed;
   width: 50%;
-  max-width: 250px;
+  min-width: 250px;
   background-color: #fff;
   color: #000;
   font-weight: 500;
@@ -171,6 +171,7 @@
 .province-title h2 {
   font-size: 35px;
   color: #f1f1f1;
+  transition: 0.3s ease;
 }
 
 .temparature-title {
@@ -188,6 +189,7 @@
   background-color: #cfcfcf;
   opacity: 0.6;
   border-radius: 8px;
+  transition: 0.3s ease;
 }
 
 .loading-province {
@@ -346,6 +348,37 @@
 
   .nextdayforecast {
     height: 200px;
+  }
+
+  .province-title h2 {
+    font-size: 30px;
+  }
+}
+
+/* iPhone 5 or other: width <= 320px */
+@media only screen and (max-width: 20em) {
+  .province-title {
+    margin: 12px 15px 0;
+  }
+
+  .temparature-container {
+    margin: 25px auto 0px;
+  }
+
+  .temparature-background {
+    height: 85px;
+  }
+
+  .nextdayforecast-wrapper h2 {
+    margin: 0px auto 5px;
+  }
+
+  .nextdayforecast {
+    height: 150px;
+  }
+
+  .forecast-day-avg {
+    margin-top: 0px;
   }
 }
 

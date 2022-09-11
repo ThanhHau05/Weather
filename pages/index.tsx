@@ -89,6 +89,7 @@ export default function Home() {
 
   const _handleRenderItemOption = () => {
     if (valueinput === "") {
+      
       return list_item.LIST_PROVINCE.map((item, index) => (
         <div
           key={index}
@@ -169,7 +170,7 @@ export default function Home() {
       const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
       const API_KEY = "4dea35c3744c4d2ca6d93100220909";
       const BASE_URL = "//api.weatherapi.com";
-      const dataitem = [];
+      const dataitems = [];
       for (let i = 1; i <= 4; i++) {
         nextDay.setDate(day.getDate() + i);
         const textDay = nextDay.toString().split(" ");
@@ -188,10 +189,10 @@ export default function Home() {
               avgtemp_c: response.data.forecast.forecastday[0].day.avgtemp_c,
               icon: response.data.forecast.forecastday[0].day.condition.icon,
             };
-            dataitem.push(item);
+            dataitems.push(item);
           });
       }
-      return dataitem;
+      return dataitems;
     }
   };
   text().then((value) => {

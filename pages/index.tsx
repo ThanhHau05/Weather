@@ -68,7 +68,7 @@ export default function Home() {
   }, []);
 
   const _handleRenderItemForecast = () => {
-    if (dataitem !== undefined && dataitem.length === 4) {
+    if (dataitem !== undefined && dataitem.length === 1) {
       return dataitem.map((item, index) => (
         <div key={index} className={cx("forecast-day-container")}>
           
@@ -172,8 +172,7 @@ export default function Home() {
       const API_KEY = "4dea35c3744c4d2ca6d93100220909";
       const BASE_URL = "//api.weatherapi.com";
       const dataitems = [];
-      for (let i = 1; i <= 4; i++) {
-        nextDay.setDate(day.getDate() + i);
+        nextDay.setDate(day.getDate() + 1);
         const textDay = nextDay.toString().split(" ");
         let dayweek = "";
         if (days.indexOf(textDay[0]) === 6) {
@@ -192,7 +191,6 @@ export default function Home() {
             };
             dataitems.push(item);
           });
-      }
       return dataitems;
     }
   };

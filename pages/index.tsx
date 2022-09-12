@@ -77,15 +77,16 @@ export default function Home() {
           <span className={cx("forecast-day-avg")}>{item.avgtemp_c}°</span>
         </div>
       ));
-    } else {
-      return [1, 2, 3, 4].map((item, index) => (
-        <div key={index}>
-          <div className={cx("loading-icon-container", "loading-icon-forecast-container")}>
-            <AiOutlineLoading3Quarters className={cx("loading-icon", "loading-icon-forecast")} />
-          </div>
-        </div>
-      ));
     }
+    // } else {
+    //   return [1, 2, 3, 4].map((item, index) => (
+    //     <div key={index}>
+    //       <div className={cx("loading-icon-container", "loading-icon-forecast-container")}>
+    //         <AiOutlineLoading3Quarters className={cx("loading-icon", "loading-icon-forecast")} />
+    //       </div>
+    //     </div>
+    //   ));
+    // }
   };
 
   const _handleRenderItemOption = () => {

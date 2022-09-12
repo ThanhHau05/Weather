@@ -68,7 +68,7 @@ export default function Home() {
   }, []);
 
   const _handleRenderItemForecast = () => {
-    if (dataitem !== undefined && dataitem.length === 1) {
+    if (dataitem !== undefined && dataitem.length === 4) {
       return dataitem.map((item, index) => (
         <div key={index} className={cx("forecast-day-container")}>
           
@@ -77,16 +77,15 @@ export default function Home() {
           <span className={cx("forecast-day-avg")}>{item.avgtemp_c}°</span>
         </div>
       ));
+    } else {
+      return [1, 2, 3, 4].map((item, index) => (
+        <div key={index}>
+          <div className={cx("loading-icon-container", "loading-icon-forecast-container")}>
+            <AiOutlineLoading3Quarters className={cx("loading-icon", "loading-icon-forecast")} />
+          </div>
+        </div>
+      ));
     }
-    // } else {
-    //   return [1, 2, 3, 4].map((item, index) => (
-    //     <div key={index}>
-    //       <div className={cx("loading-icon-container", "loading-icon-forecast-container")}>
-    //         <AiOutlineLoading3Quarters className={cx("loading-icon", "loading-icon-forecast")} />
-    //       </div>
-    //     </div>
-    //   ));
-    // }
   };
 
   const _handleRenderItemOption = () => {
@@ -173,7 +172,8 @@ export default function Home() {
       const API_KEY = "4dea35c3744c4d2ca6d93100220909";
       const BASE_URL = "//api.weatherapi.com";
       const dataitems = [];
-        nextDay.setDate(day.getDate() + 1);
+      for (let i = 1; i <= 4; i++) {
+        nextDay.setDate(day.getDate() + i);
         const textDay = nextDay.toString().split(" ");
         let dayweek = "";
         if (days.indexOf(textDay[0]) === 6) {
@@ -192,6 +192,7 @@ export default function Home() {
             };
             dataitems.push(item);
           });
+      }
       return dataitems;
     }
   };

@@ -71,6 +71,7 @@ export default function Home() {
     if (dataitem !== undefined && dataitem.length === 4) {
       return dataitem.map((item, index) => (
         <div key={index} className={cx("forecast-day-container")}>
+          
           {item.day === "CN" ? <span>{item.day}</span> : <span>Thứ {item.day}</span>}
           <img src={item.icon} alt="" />
           <span className={cx("forecast-day-avg")}>{item.avgtemp_c}°</span>
